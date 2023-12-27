@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gelato Delight</title>
+
+	<link rel="icon" type="image/x-icon" href="./image/favicon.png">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+
+	<div class="box-wrap" style="margin-top: 30px;">
+		<div class="left">
+			<div class="overlay">
+				<h1>Gelato Delight.</h1>
+			</div>
+		</div>
+		
+		<div class="right">
+			<h5 style="margin-bottom: 20px;">Login</h5>
+			<p>Don't have an account? To create an account, authorization is required.</p>
+			<p>Only administrators or users with manager-level access are permitted to create accounts.</p>
+
+			<div class="inputs">
+			  <div id="error-response"></div>
+			  <form id="loginForm">
+				  <div class="input-wrapper">
+						<input type="text" id="employeeid" class="keyboard" placeholder="Employee ID" autocomplete="off">
+					</div>
+					<div class="input-wrapper">
+						<input type="password" id="password" class="keyboard" placeholder="Password" autocomplete="off" />
+						<div class="input-icon" id="icon">
+							<i class="fas fa-eye"></i>
+						</div>
+					</div>
+					<br>
+			    <button type="submit">Login</button>
+			  </form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	<script src="./js/script.js"></script>
+
+</body>
+</html>

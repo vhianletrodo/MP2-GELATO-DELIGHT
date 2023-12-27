@@ -1,0 +1,543 @@
+<script>
+//localStorage.clear();
+const currentUser = sessionStorage.getItem('currentUser');
+
+if(currentUser){
+	const parsedArray = JSON.parse(currentUser);
+	let loggedin = parsedArray[0]['isloggedin'];
+	if(loggedin==1){
+
+	}else{
+		window.location.replace("../");
+	}
+}else{
+	window.location.replace("../");
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gelato Delight | Admin POS</title>
+
+	<link rel="icon" type="image/x-icon" href="./image/favicon.png">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<link href="./css/style.css" rel="stylesheet">
+	<script src="./js/cart.js"></script>
+</head>
+
+<body>
+
+	<div class="bg-dark p-3">
+		<div class="bg-light row mx-0">
+
+
+			<nav class="sidebar close">
+			  <header>
+			    <div class="image-text"> 
+			      <span class="image">
+			        <img id="userImage" src="#" alt="current user">
+			      </span>
+			      <div class="text logo-text">
+			      	<span class="name">Gelato Delight</span>
+			      	<span class="profession">Hello, <span id="currentUser-name"></span></span>
+			    	</div>
+			    </div>
+			    <i class="fa-solid fa-chevron-right toggle"></i>
+			  </header>
+			  <div class="menu-bar">
+			    <div class="menu">
+			      <ul class="menu-links p-0">
+			        <li class="nav-link">
+			          <a href="./index.html">
+			            <i class="fa-solid fa-house icon"></i>
+			            <span class="text nav-text">Dashboard</span>
+			          </a>
+			        </li>
+			        <li class="nav-link active">
+			          <a href="./pos.html">
+			            <i class="fa-solid fa-hand-holding-dollar icon"></i>
+			            <span class="text nav-text">Sales</span>
+			          </a>
+			        </li>
+			        <li class="nav-link">
+			          <a href="./pos.html">
+			            <i class="fa-solid fa-warehouse icon"></i>
+			            <span class="text nav-text">Inventory</span>
+			          </a>
+			        </li>
+			        <li id="admin-only" class="nav-link">
+			          <a href="./add.html">
+			            <i class="fa-solid fa-user icon"></i>
+			            <span class="text nav-text">User</span>
+			          </a>
+			        </li>
+			      </ul>
+			    </div>
+			    <div class="bottom-content">
+			    	<ul class="menu-links p-0">
+				      <li class="">
+				        <a href="javascript:void(0);" onclick="logout();">
+				          <i class="fa-solid fa-right-from-bracket icon"></i>
+				          <span class="text nav-text">Logout</span>
+				        </a>
+				      </li>
+			    	</ul>
+			    </div>
+			  </div>
+			</nav>
+
+
+
+
+			<!-- Main Content -->
+			<div class="col-sm py-3">
+
+				<!-- Top -->
+				<div class="row">
+					<!-- Order Number -->
+					<div class="col-sm-6">
+						<h3>Order No: # <span id="order-number">0000</span></h3>
+
+					</div>
+					<!-- Date Time -->
+					<div class="col-sm-6 text-end">
+						<span id="header-date" class="h3"></span>&nbsp;
+						<span id="clock" class="text-muted h3" onload="currentTime()"></span>
+					</div>
+				</div>
+				<!-- End Top -->
+
+				<!-- Bootstrap Order Modal -->
+				<div class="modal fade" id="order-modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-cart-plus"></i> Order</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+
+				      <div class="modal-body px-0">
+								<div class="container-fluid">
+							    <div id="modal-order-item" class="row">
+							    </div>
+							  </div>
+				      </div>
+
+				      <div class="modal-footer">
+				        <button id="btn-add-order" onclick="orderCart(this)" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add Order</button>
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- End Bootstrap Order Modal -->
+
+
+				<div class="tab-content-wrap">
+
+					<div class="tab-content" id="pills-tabContent">
+						<!-- Gelato Menu Wrap List -->
+					  <div class="tab-pane fade show active" id="pills-gelato" role="tabpanel" aria-labelledby="pills-gelato-tab">
+					  	
+					  	<!-- Gelato Flavor Listing -->
+							<div id="product-list-gelato" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"></div>
+							<!-- End Gelato Flavor Listing -->
+
+					  </div>
+					  <!-- End Gelato Menu Wrap List -->
+
+					</div>
+					<!-- End Navs Tabs -->
+
+				</div>
+				<!-- Navs Tabs Wrap -->
+			</div>
+			<!-- End Main Content -->
+
+			<!-- Cart Content -->
+			<div class="col-sm-3 py-3">
+				<div class="card cart-panel">
+					<div class="card-header">
+						<ul class="mb-0 list-unstyled">
+							<li class="d-flex justify-content-between align-items-center">
+								<p class="h3 mb-0"><i class="fa-solid fa-cart-shopping"></i> Order</p>
+								<button onclick="clearCart()" class="btn btn-danger rounded-3 fw-bold btn-clear"><i class="fa-regular fa-trash-can"></i> Clear Cart</button>
+							</li>
+						</ul>
+					</div>
+
+					<div class="card-body p-0">
+						<div class="cart-list-wrap">
+							<ul id="cart-list" class="list-unstyled"></ul>
+						</div>						
+					</div>
+
+					<div class="card-footer h-100">
+						<ul class="list-unstyled">
+							<li class="d-flex justify-content-between align-items-center">
+								<big class="fw-bold">Total Items:</big>
+								<big id="total-item" class="card-text h4">0</big>
+							</li>
+							<li class="d-flex justify-content-between align-items-center">
+								<big class="fw-bold">Total Amount:</big>
+								<big class="card-text fw-bold h3">₱ <span id="total-cost">0.00</span></big>
+							</li>
+							<li class="d-flex justify-content-between align-items-center">
+								<big class="fw-bold">Cash:</big>
+								<big class="card-text fw-bold h4">₱ <span id="total-cash">0.00</span></big>
+							</li>
+							<li class="d-flex justify-content-between align-items-center">
+								<big class="fw-bold">Change:</big>
+								<big class="card-text fw-bold h4">₱ <span id="total-change">0.00</span></big>
+							</li>
+						</ul>
+						
+						<button id="btn-add-cash-amount" onclick="setTozero();" class="btn btn-primary w-100 rounded-pill fw-bold mb-1" data-bs-toggle="modal" data-bs-target="#checkout-modal" disabled><i class="fa-solid fa-money-bill"></i> CASH AMOUNT</button>
+
+						<button id="btn-complete-transaction" onclick="transComplete(); window.print();" class="btn btn-success w-100 rounded-pill fw-bold" disabled><i class="bi bi-cart-check"></i> COMPLETE</button>
+
+						<!-- Bootstrap Checkout Modal -->
+						<div class="modal fade" id="checkout-modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-cart-shopping"></i> Insert Cash Amount</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+
+						      <div class="modal-body px-0">
+										<div class="container-fluid">
+									    <div class="row mb-3">
+									    	<div class="col-md-12 mb-3">
+									    		<input type="text" id="insrt-amnt-txt" class="insrt-amnt-txt w-100" value="0" disabled>
+									    	</div>
+
+
+												<div class="col-md-4 mb-3">
+									    		
+									    	</div>
+												<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCashCancel()" class="btn btn-danger rounded-pill w-100 fw-bold">C</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCashBackSpace()" style="font-size: 24px;" class="btn btn-danger rounded-pill w-100 fw-bold"><i class="fa-solid fa-delete-left"></i></button>
+									    	</div>
+
+												<div class="col-md-4 mb-3">
+													<button onclick="InsrtCash('7')" class="btn btn-warning rounded-pill w-100 fw-bold">7</button>
+												</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('8')" class="btn btn-warning rounded-pill w-100 fw-bold">8</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('9')" class="btn btn-warning rounded-pill w-100 fw-bold">9</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('4')" class="btn btn-warning rounded-pill w-100 fw-bold">4</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('5')" class="btn btn-warning rounded-pill w-100 fw-bold">5</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('6')" class="btn btn-warning rounded-pill w-100 fw-bold">6</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('1')" class="btn btn-warning rounded-pill w-100 fw-bold">1</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('2')" class="btn btn-warning rounded-pill w-100 fw-bold">2</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('3')" class="btn btn-warning rounded-pill w-100 fw-bold">3</button>
+									    	</div>
+
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('0')" class="btn btn-warning rounded-pill w-100 fw-bold">0</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('00')" class="btn btn-warning rounded-pill w-100 fw-bold">00</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="InsrtCash('.')" class="btn btn-warning rounded-pill w-100 fw-bold">.</button>
+									    	</div>
+
+									    	<div class="col-md-12 mb-3">
+									    		<button onclick="InsrtExactCash()" class="btn btn-warning rounded-pill w-100 fw-bold">Exact Amount</button>
+									    	</div>
+									    </div>
+
+									    <div class="row">
+												<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(20)" class="btn btn-success rounded-pill w-100 fw-bold">20</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(50)" class="btn btn-success rounded-pill w-100 fw-bold">50</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(100)" class="btn btn-success rounded-pill w-100 fw-bold">100</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(200)" class="btn btn-success rounded-pill w-100 fw-bold">200</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(500)" class="btn btn-success rounded-pill w-100 fw-bold">500</button>
+									    	</div>
+									    	<div class="col-md-4 mb-3">
+									    		<button onclick="denominationCash(1000)" class="btn btn-success rounded-pill w-100 fw-bold">1000</button>
+									    	</div>
+
+									    </div>
+									  </div>
+						      </div>
+
+						      <div class="modal-footer">
+						        <button id="btn-insert-cash" onclick="addCash(this)" type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>Insert</button>
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						<!-- End Bootstrap Checkout Modal -->
+
+
+
+					</div>
+
+
+
+
+				</div>
+			</div>
+			<!-- End Cart Content -->
+		</div>	
+	</div>
+
+
+
+
+
+
+
+  <div id="invoice-POS" class="print-container">
+    
+    <center id="top" class="w-100">
+      <div class="logo" class="w-100">
+      	<img src="./image/favicon.png">
+      </div>
+      <div class="info w-100 mt-0 mb-2"> 
+        <h2>Gelato Delight</h2>
+      </div><!--End Info-->
+    </center><!--End InvoiceTop-->
+    
+    <div id="mid">
+      <div class="info">
+        <p> 
+            27, Avenue hotel Tanganyika, Quartier Kabondo, Bujumbura, Burundi</br>
+            info@gelato-delights.com</br>
+            555-555-5555</br>
+        </p>
+      </div>
+    </div><!--End Invoice Mid-->
+    
+    <div id="bot">
+
+    	<div class="rcpt w-100">
+
+    		<div class="mb-2 w-100">
+    			<div class="tabletitle border-dash w-100">
+    				<div class="text-center w-100"><h2 class="w-100 text-center">S A L E S &nbsp; &nbsp;R E C E I P T</h2></div>
+    			</div>
+    		</div>
+
+    		<div class="w-100 tabletitle mb-2">
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-50">
+    					<span>SI #:</span>
+    				</div>
+    			</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-50">
+    					<span id="rcpt-transnum"></span>
+    				</div>
+    			</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					Date: <span id="rcpt-date"></span>
+    				</div>
+    			</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+									Time: <span id="rcpt-timestamp"></span>
+    				</div>
+    			</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<span>Cashier:</span> <span id="rcpt-user"></span>
+    				</div>
+    			</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+									<span>Terminal:</span> 2
+    				</div>
+    			</div>
+    			<div class="clear"></div>
+    		</div>
+
+    		<div class="clear"></div>
+  
+    		<div class="w-100 tabletitle border-dash-top pt-2">
+    			<div class="w-50 pull-left">
+    					<h2>Item</h2>
+    			</div>
+    			<div class="w-25 pull-left">
+    				<h2>Qty</h2>
+    			</div>
+    			<div class="w-25 pull-left text-end">
+    					<h2>Sub Total</h2>
+    			</div>
+    		</div>
+
+
+    		<div id="rcpt-listing" class="w-100 tabletitle"></div>
+
+
+    		<div class="w-100 tabletitle">
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>Sub Total (12% Vatable)</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left border-dash-top">
+								<div class="p-0 w-100 text-end">
+    					<span id="rcpt-st-vatable"></span>
+    				</div>
+    			</div>
+
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>Sub Total (12% Exempt)</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left">
+								<div class="p-0 w-100 text-end">
+    					0.00
+    				</div>
+    			</div>
+
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>Plus 12% VAT</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left">
+								<div class="p-0 w-100 text-end">
+    					<span id="rcpt-vat"></span>
+    				</div>
+    			</div>
+
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>TOTAL</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left">
+								<div class="p-0 w-100 text-end">
+    					<span id="rcpt-total"></span>
+    				</div>
+    			</div>
+
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>Cash Tendered</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left">
+								<div class="p-0 w-100 text-end">
+    					<span id="rcpt-cash-tendered"></span>
+    				</div>
+    			</div>
+
+    			<div class="w-25 pull-left">&nbsp;</div>
+    			<div class="w-50 pull-left">
+								<div class="p-0 w-100">
+    					<h2>Change Cash</h2>
+    				</div>
+    			</div>
+    			<div class="w-25 pull-left">
+								<div class="p-0 w-100 text-end">
+    					<span id="rcpt-cash-change"></span>
+    				</div>
+    			</div>
+
+
+    		</div>
+
+
+
+
+    	</div>
+
+
+
+
+
+
+					<div id="legalcopy">
+						<div class="info">
+        <p> 
+            <strong style="margin-bottom: 5px; display: block;">This serves as your Official Receipt.</strong>
+            SERVER SN: PH241QXSX</br>
+            POS SN: PH241QXSY MIN: 120297945</br>
+           BIR PERMIT NO: 1012-17A-139749-000</br>
+           ACCREDITATION NO: 047-004471397-000371</br>
+        </p>
+      </div>
+					</div>
+
+				</div><!--End InvoiceBot-->
+  </div><!--End Invoice-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	<script src="./js/script.js"></script>
+
+<script>
+
+</script>
+</html>

@@ -1,0 +1,148 @@
+{
+  "gelato": [
+    {
+      "product_id": "202311140001",
+      "item_name": "Chocolate",
+      "img":  "choco.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "y",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140002",
+      "item_name": "Strawberry Crunch",
+      "img":  "strawberry-crunch.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "y",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140003",
+      "item_name": "Chocnut Crumble",
+      "img":  "chocnut.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "y"
+    },
+    {
+      "product_id": "202311140004",
+      "item_name": "Blueberry Cheesecake",
+      "img":  "blueberry-cheesecake.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "y",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140005",
+      "item_name": "Coffee Crumble",
+      "img":  "coffee-crumble.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "20231114009",
+      "item_name": "Peanut Butter Oreo",
+      "img":  "peanut-butter-oreo.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "y"
+    },
+    {
+      "product_id": "202311140006",
+      "item_name": "Cereal Milk",
+      "img":  "cereal-milk.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140007",
+      "item_name": "Mango",
+      "img":  "mango-milk.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140010",
+      "item_name": "Pistachio",
+      "img":  "pistachio.jpg",
+      "cone": "60",
+      "cup": "430",
+      "best_seller" : "n",
+      "allergens" : "y"
+    },
+    {
+      "product_id": "202311140008",
+      "item_name": "Matcha",
+      "img":  "macha.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140011",
+      "item_name": "Roasted Milk & Cookies",
+      "img":  "roasted.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140013",
+      "item_name": "Leche Flan",
+      "img":  "leche-flan.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140014",
+      "item_name": "Malted Milk",
+      "img":  "malted-milk.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140015",
+      "item_name": "Madagascar Vanilla",
+      "img":  "mada-vanilla.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    },
+    {
+      "product_id": "202311140012",
+      "item_name": "Tablea Lava Cake",
+      "img":  "lava-cake.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "y"
+    },
+    {
+      "product_id": "202311140016",
+      "item_name": "Mangga't Suman",
+      "img":  "mangga-suman.jpg",
+      "cone": "50",
+      "cup": "390",
+      "best_seller" : "n",
+      "allergens" : "n"
+    }
+  ]
+}
